@@ -1,0 +1,264 @@
+{
+  "app": {
+    "name": "Krishi Mitra",
+    "tagline": "The New Path for Farming",
+    "description": "AI-powered advisory for 150M+ Indian farmers"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "diseaseDetection": "Disease Detection",
+    "weather": "Weather Advisory",
+    "fertilizer": "Fertilizer Guide",
+    "market": "Market Prices",
+    "chatbot": "AI Chatbot",
+    "voiceAssistant": "Voice Assistant",
+    "notifications": "Notifications",
+    "farmProfile": "Farm Profile",
+    "admin": "Admin Dashboard",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register"
+  },
+  "hero": {
+    "title": "The New Path for Farming",
+    "titleHindi": "खेती की नई राह",
+    "subtitle": "AI-powered advisory for 150M+ Indian farmers",
+    "cta_google": "Start for Free — Google",
+    "cta_demo": "Watch Demo"
+  },
+  "features": {
+    "title": "Everything Your Farm Needs",
+    "disease": {
+      "title": "Disease Detection",
+      "description": "Snap a photo of your crop and get instant AI diagnosis with treatment plans"
+    },
+    "weather": {
+      "title": "Weather Advisory",
+      "description": "Hyper-local weather forecasts with farm-specific agricultural advice"
+    },
+    "fertilizer": {
+      "title": "Fertilizer Guide",
+      "description": "Smart NPK recommendations based on your soil, crop and growth stage"
+    },
+    "market": {
+      "title": "Market Prices",
+      "description": "Live mandi prices, trends and AI-powered best-time-to-sell advice"
+    },
+    "chat": {
+      "title": "AI Chatbot",
+      "description": "Ask any farming question in Hindi or English and get expert answers"
+    },
+    "voice": {
+      "title": "Voice Assistant",
+      "description": "Hands-free farming advice — just speak and listen in your language"
+    }
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "step1": {
+      "title": "Capture",
+      "description": "Take a photo or describe your farming challenge"
+    },
+    "step2": {
+      "title": "AI Analyzes",
+      "description": "Our AI processes your input with agricultural expertise"
+    },
+    "step3": {
+      "title": "Get Advice",
+      "description": "Receive actionable, personalized farming recommendations"
+    }
+  },
+  "stats": {
+    "farmersHelped": "Farmers Helped",
+    "diseasesDetected": "Diseases Detected",
+    "statesCovered": "States Covered",
+    "cropsSupported": "Crops Supported"
+  },
+  "testimonials": {
+    "title": "Trusted by Farmers Across India"
+  },
+  "cta": {
+    "title": "Join {{count}} farmers already using Krishi Mitra",
+    "button": "Get Started for Free"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Create Account",
+    "google": "Continue with Google",
+    "email": "Email Address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "phone": "Phone Number",
+    "phoneLogin": "Login with Phone OTP",
+    "sendOtp": "Send OTP",
+    "verifyOtp": "Verify OTP",
+    "name": "Full Name",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "or": "or"
+  },
+  "onboarding": {
+    "title": "Set Up Your Farm Profile",
+    "step1Title": "Personal Info",
+    "step2Title": "Farm Details",
+    "step3Title": "Select Crops",
+    "step4Title": "Notifications",
+    "state": "State",
+    "district": "District",
+    "taluka": "Taluka",
+    "language": "Preferred Language",
+    "landSize": "Land Size (acres)",
+    "soilType": "Soil Type",
+    "irrigationType": "Irrigation Type",
+    "primaryCrop": "Primary Crop",
+    "secondaryCrops": "Secondary Crops",
+    "notifications": "Notification Preferences",
+    "pushNotif": "Push Notifications",
+    "smsNotif": "SMS Alerts",
+    "emailNotif": "Email Updates",
+    "next": "Next",
+    "back": "Back",
+    "finish": "Start Farming with AI"
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {{name}}!",
+    "weatherTitle": "Today's Weather",
+    "quickActions": "Quick Actions",
+    "alerts": "Recent Alerts",
+    "noAlerts": "No alerts at the moment"
+  },
+  "disease": {
+    "title": "Disease Detection",
+    "subtitle": "Upload a photo of your crop leaf for instant AI diagnosis",
+    "upload": "Upload Image",
+    "camera": "Take Photo",
+    "dragDrop": "Drag and drop your image here, or click to browse",
+    "analyzing": "Analyzing your crop...",
+    "result": "Diagnosis Result",
+    "confidence": "Confidence",
+    "treatment": "Treatment Options",
+    "organic": "Organic",
+    "chemical": "Chemical",
+    "prevention": "Prevention Tips",
+    "severity": "Severity",
+    "history": "Detection History",
+    "share": "Share with Extension Worker",
+    "downloadPdf": "Download PDF Report"
+  },
+  "weather": {
+    "title": "Weather Advisory",
+    "current": "Current Conditions",
+    "forecast": "7-Day Forecast",
+    "advisory": "Farm Advisory",
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "wind": "Wind Speed",
+    "rainfall": "Rainfall",
+    "uvIndex": "UV Index",
+    "calendar": "Farming Calendar"
+  },
+  "fertilizer": {
+    "title": "Fertilizer Recommendation",
+    "subtitle": "Get personalized fertilizer advice for your crop",
+    "cropType": "Crop Type",
+    "soilType": "Soil Type",
+    "soilPh": "Soil pH (optional)",
+    "previousCrop": "Previous Crop",
+    "growthStage": "Growth Stage",
+    "irrigationType": "Irrigation Type",
+    "landSize": "Land Size",
+    "budget": "Budget Preference",
+    "getRecommendation": "Get Recommendation",
+    "npk": "NPK Recommendation",
+    "micronutrients": "Micronutrients",
+    "organicAlternatives": "Organic Alternatives",
+    "schedule": "Application Schedule",
+    "estimatedCost": "Estimated Cost",
+    "subsidyInfo": "Government Subsidy Info"
+  },
+  "market": {
+    "title": "Market Prediction",
+    "livePrice": "Live Mandi Prices",
+    "trend": "Price Trends",
+    "prediction": "Price Prediction",
+    "bestTime": "Best Time to Sell",
+    "nearbyMandi": "Nearby Mandis",
+    "priceAlert": "Set Price Alert",
+    "transportCost": "Transport Cost Estimator",
+    "crop": "Select Crop",
+    "state": "Select State",
+    "mandi": "Select Mandi"
+  },
+  "chat": {
+    "title": "AI Chatbot",
+    "placeholder": "Ask me anything about farming...",
+    "send": "Send",
+    "voiceInput": "Voice Input",
+    "suggested": "Suggested Questions",
+    "newChat": "New Chat",
+    "history": "Chat History",
+    "escalate": "Ask Extension Worker",
+    "thinking": "Krishi Mitra is thinking..."
+  },
+  "voice": {
+    "title": "Voice Assistant",
+    "tapToSpeak": "Tap to Speak",
+    "listening": "Listening...",
+    "processing": "Processing...",
+    "speaking": "Speaking..."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark All Read",
+    "noNotifications": "No notifications yet",
+    "rain": "Rain Alert",
+    "pest": "Pest Alert",
+    "price": "Price Alert",
+    "sow": "Sowing Reminder",
+    "spray": "Spray Reminder",
+    "scheme": "Government Scheme",
+    "tip": "Tip of the Day"
+  },
+  "farm": {
+    "title": "Farm Profile",
+    "edit": "Edit Profile",
+    "save": "Save Changes",
+    "farmDetails": "Farm Details",
+    "personalInfo": "Personal Information"
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "users": "User Management",
+    "analytics": "System Analytics",
+    "model": "AI Model Monitor",
+    "content": "Content Management",
+    "workers": "Extension Workers",
+    "totalUsers": "Total Users",
+    "newSignups": "New Signups",
+    "apiCalls": "API Calls",
+    "accuracy": "AI Accuracy"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try Again",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "filter": "Filter",
+    "noData": "No data available",
+    "comingSoon": "Coming Soon"
+  },
+  "footer": {
+    "about": "About",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "contact": "Contact",
+    "download": "App Download (Coming Soon)",
+    "copyright": "© 2024 Krishi Mitra. Built with ❤️ for Indian farmers."
+  }
+}
