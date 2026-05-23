@@ -2,12 +2,19 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HelpCircle, X, Globe, BookOpen } from 'lucide-react';
 import Card from './Card';
-
-type Language = 'en' | 'hi';
+import { useTranslation } from 'react-i18next';
+import { useUIStore } from '@/store/uiStore';
 
 export default function FloatingGuide() {
   const [isOpen, setIsOpen] = useState(false);
-  const [language, setLanguage] = useState<Language>('hi');
+  const { language, setLanguage } = useUIStore();
+  const { i18n } = useTranslation();
+
+  const toggleLanguage = () => {
+    const newLang = language === 'en' ? 'hi' : 'en';
+    i18n.changeLanguage(newLang);
+    setLanguage(newLang);
+  };
 
   const detailedGuide = {
     en: {
@@ -57,7 +64,7 @@ export default function FloatingGuide() {
                 </h3>
                 <div className="flex items-center gap-2 shrink-0">
                   <button
-                    onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
+                    onClick={toggleLanguage}
                     className="flex items-center gap-1.5 text-xs font-semibold text-text-primary hover:bg-surface-2 transition-colors bg-surface-1 border border-glass-border px-2.5 py-1.5 rounded-lg shadow-sm"
                   >
                     <Globe className="w-3.5 h-3.5 text-primary-400" />

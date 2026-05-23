@@ -16,7 +16,7 @@ export default function AlertsFeed() {
           <Bell className="w-6 h-6 text-primary-400" />
         </div>
         <p className="text-sm font-medium text-text-primary mb-1">{t('dashboard.noAlerts')}</p>
-        <p className="text-xs text-text-muted">Weather alerts and market updates will appear here.</p>
+        <p className="text-xs text-text-muted">{t('dashboard.noAlertsSub')}</p>
       </div>
     </Card>
   );

@@ -32,7 +32,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-sm font-semibold text-text-primary mb-3 font-body">Quick Links</h4>
+            <h4 className="text-sm font-semibold text-text-primary mb-3 font-body">{t('footer.quickLinks')}</h4>
             <ul className="space-y-2">
               {[
                 { label: t('footer.about'), href: '#' },
@@ -51,7 +51,7 @@ export default function Footer() {
 
           {/* Resources */}
           <div>
-            <h4 className="text-sm font-semibold text-text-primary mb-3 font-body">Resources</h4>
+            <h4 className="text-sm font-semibold text-text-primary mb-3 font-body">{t('footer.resources')}</h4>
             <ul className="space-y-2">
               {['ICAR Guidelines', 'KVK Directory', 'PM-KISAN', 'eNAM Portal'].map((item) => (
                 <li key={item}>

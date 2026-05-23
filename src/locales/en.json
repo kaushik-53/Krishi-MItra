@@ -22,10 +22,21 @@
   },
   "hero": {
     "title": "The New Path for Farming",
+    "tagline": "Farming's New Path",
     "titleHindi": "खेती की नई राह",
     "subtitle": "AI-powered advisory for 150M+ Indian farmers",
     "cta_google": "Start for Free — Google",
-    "cta_demo": "Watch Demo"
+    "cta_demo": "Watch Demo",
+    "cards": {
+      "disease": "Disease Scan",
+      "diseaseSub": "AI-Powered Detection",
+      "weather": "Weather",
+      "weatherSub": "Real-time Advisory",
+      "irrigation": "Irrigation",
+      "irrigationSub": "Soil Moisture Tracking",
+      "fertilizer": "Fertilizer",
+      "fertilizerSub": "NPK Recommendations"
+    }
   },
   "features": {
     "title": "Everything Your Farm Needs",
@@ -127,7 +138,8 @@
     "weatherTitle": "Today's Weather",
     "quickActions": "Quick Actions",
     "alerts": "Recent Alerts",
-    "noAlerts": "No alerts at the moment"
+    "noAlerts": "No alerts at the moment",
+    "noAlertsSub": "Weather alerts and market updates will appear here."
   },
   "disease": {
     "title": "Disease Detection",
@@ -251,7 +263,8 @@
     "search": "Search",
     "filter": "Filter",
     "noData": "No data available",
-    "comingSoon": "Coming Soon"
+    "comingSoon": "Coming Soon",
+    "learnMore": "Learn more"
   },
   "footer": {
     "about": "About",
@@ -259,6 +272,8 @@
     "terms": "Terms of Service",
     "contact": "Contact",
     "download": "App Download (Coming Soon)",
-    "copyright": "© 2024 Krishi Mitra. Built with ❤️ for Indian farmers."
+    "copyright": "© 2024 Krishi Mitra. Built with ❤️ for Indian farmers.",
+    "quickLinks": "Quick Links",
+    "resources": "Resources"
   }
 }

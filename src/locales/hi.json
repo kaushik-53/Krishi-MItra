@@ -1,7 +1,24 @@
 {
   "app": { "name": "कृषि मित्र", "tagline": "खेती की नई राह", "description": "15 करोड़+ भारतीय किसानों के लिए AI-संचालित सलाह" },
   "nav": { "home": "होम", "dashboard": "डैशबोर्ड", "diseaseDetection": "रोग पहचान", "weather": "मौसम सलाह", "fertilizer": "उर्वरक गाइड", "market": "बाज़ार भाव", "chatbot": "AI चैटबॉट", "voiceAssistant": "वॉयस असिस्टेंट", "notifications": "सूचनाएं", "farmProfile": "खेत प्रोफ़ाइल", "admin": "एडमिन डैशबोर्ड", "logout": "लॉगआउट", "login": "लॉगिन", "register": "रजिस्टर" },
-  "hero": { "title": "खेती की नई राह", "titleHindi": "खेती की नई राह", "subtitle": "15 करोड़+ भारतीय किसानों के लिए AI-संचालित सलाह", "cta_google": "मुफ़्त शुरू करें — Google", "cta_demo": "डेमो देखें" },
+  "hero": { 
+    "title": "खेती की नई राह", 
+    "tagline": "खेती की नई राह", 
+    "titleHindi": "खेती की नई राह", 
+    "subtitle": "15 करोड़+ भारतीय किसानों के लिए AI-संचालित सलाह", 
+    "cta_google": "मुफ़्त शुरू करें — Google", 
+    "cta_demo": "डेमो देखें",
+    "cards": {
+      "disease": "रोग पहचान",
+      "diseaseSub": "AI-संचालित पहचान",
+      "weather": "मौसम",
+      "weatherSub": "वास्तविक समय सलाह",
+      "irrigation": "सिंचाई",
+      "irrigationSub": "मिट्टी की नमी ट्रैकिंग",
+      "fertilizer": "उर्वरक",
+      "fertilizerSub": "NPK सिफ़ारिशें"
+    }
+  },
   "features": { "title": "आपके खेत की हर ज़रूरत", "disease": { "title": "रोग पहचान", "description": "फसल की तस्वीर लें और तुरंत AI डायग्नोसिस पाएं" }, "weather": { "title": "मौसम सलाह", "description": "स्थानीय मौसम पूर्वानुमान और खेती सलाह" }, "fertilizer": { "title": "उर्वरक गाइड", "description": "मिट्टी और फसल के आधार पर NPK सिफ़ारिश" }, "market": { "title": "बाज़ार भाव", "description": "लाइव मंडी भाव और बेचने का सबसे अच्छा समय" }, "chat": { "title": "AI चैटबॉट", "description": "हिंदी या अंग्रेज़ी में खेती का सवाल पूछें" }, "voice": { "title": "वॉयस असिस्टेंट", "description": "हैंड्स-फ्री खेती सलाह अपनी भाषा में" } },
   "howItWorks": { "title": "कैसे काम करता है", "step1": { "title": "तस्वीर लें", "description": "फसल की तस्वीर लें या समस्या बताएं" }, "step2": { "title": "AI विश्लेषण", "description": "AI कृषि विशेषज्ञता से विश्लेषण करता है" }, "step3": { "title": "सलाह पाएं", "description": "व्यक्तिगत खेती सिफ़ारिशें प्राप्त करें" } },
   "stats": { "farmersHelped": "किसानों की मदद", "diseasesDetected": "रोग पहचाने गए", "statesCovered": "राज्य कवर", "cropsSupported": "फसलें समर्थित" },
@@ -9,7 +26,7 @@
   "cta": { "title": "{{count}} किसान पहले से कृषि मित्र का उपयोग कर रहे हैं", "button": "मुफ़्त शुरू करें" },
   "auth": { "login": "लॉगिन", "register": "अकाउंट बनाएं", "google": "Google से जारी रखें", "email": "ईमेल", "password": "पासवर्ड", "confirmPassword": "पासवर्ड पुष्टि", "phone": "फ़ोन नंबर", "phoneLogin": "फ़ोन OTP से लॉगिन", "sendOtp": "OTP भेजें", "verifyOtp": "OTP सत्यापित करें", "name": "पूरा नाम", "forgotPassword": "पासवर्ड भूल गए?", "noAccount": "अकाउंट नहीं है?", "hasAccount": "पहले से अकाउंट है?", "or": "या" },
   "onboarding": { "title": "अपना खेत प्रोफ़ाइल बनाएं", "step1Title": "व्यक्तिगत जानकारी", "step2Title": "खेत विवरण", "step3Title": "फसल चुनें", "step4Title": "सूचनाएं", "state": "राज्य", "district": "ज़िला", "taluka": "तहसील", "language": "पसंदीदा भाषा", "landSize": "भूमि (एकड़)", "soilType": "मिट्टी का प्रकार", "irrigationType": "सिंचाई का प्रकार", "primaryCrop": "मुख्य फसल", "secondaryCrops": "अन्य फसलें", "next": "अगला", "back": "पीछे", "finish": "AI के साथ खेती शुरू करें" },
-  "dashboard": { "welcome": "स्वागत, {{name}}!", "weatherTitle": "आज का मौसम", "quickActions": "त्वरित कार्य", "alerts": "हालिया अलर्ट", "noAlerts": "कोई अलर्ट नहीं" },
+  "dashboard": { "welcome": "स्वागत, {{name}}!", "weatherTitle": "आज का मौसम", "quickActions": "त्वरित कार्य", "alerts": "हालिया अलर्ट", "noAlerts": "कोई अलर्ट नहीं", "noAlertsSub": "मौसम अलर्ट और बाज़ार के अपडेट यहां दिखाई देंगे।" },
   "disease": { "title": "रोग पहचान", "subtitle": "AI डायग्नोसिस के लिए पत्ते की तस्वीर अपलोड करें", "upload": "अपलोड", "camera": "फ़ोटो लें", "dragDrop": "तस्वीर यहां खींचें", "analyzing": "विश्लेषण हो रहा है...", "result": "परिणाम", "confidence": "विश्वास", "treatment": "उपचार", "organic": "जैविक", "chemical": "रासायनिक", "prevention": "रोकथाम", "severity": "गंभीरता", "history": "इतिहास", "share": "सलाहकार से साझा करें", "downloadPdf": "PDF डाउनलोड" },
   "weather": { "title": "मौसम सलाह", "current": "वर्तमान", "forecast": "7-दिन पूर्वानुमान", "advisory": "खेत सलाह", "temperature": "तापमान", "humidity": "आर्द्रता", "wind": "हवा", "rainfall": "बारिश", "uvIndex": "UV सूचकांक", "calendar": "खेती कैलेंडर" },
   "fertilizer": { "title": "उर्वरक सिफ़ारिश", "subtitle": "फसल के लिए उर्वरक सलाह", "cropType": "फसल", "soilType": "मिट्टी", "soilPh": "pH", "previousCrop": "पिछली फसल", "growthStage": "विकास चरण", "irrigationType": "सिंचाई", "landSize": "भूमि", "budget": "बजट", "getRecommendation": "सिफ़ारिश पाएं", "npk": "NPK", "micronutrients": "सूक्ष्म पोषक", "organicAlternatives": "जैविक विकल्प", "schedule": "अनुसूची", "estimatedCost": "अनुमानित लागत", "subsidyInfo": "सब्सिडी जानकारी" },
@@ -19,6 +36,6 @@
   "notifications": { "title": "सूचनाएं", "markAllRead": "सभी पढ़ी गई", "noNotifications": "कोई सूचना नहीं" },
   "farm": { "title": "खेत प्रोफ़ाइल", "edit": "संपादित करें", "save": "सहेजें", "farmDetails": "खेत विवरण", "personalInfo": "व्यक्तिगत जानकारी" },
   "admin": { "title": "एडमिन डैशबोर्ड", "users": "उपयोगकर्ता", "analytics": "विश्लेषण", "model": "AI मॉनिटर", "content": "सामग्री", "workers": "सलाहकार", "totalUsers": "कुल उपयोगकर्ता", "newSignups": "नए रजिस्ट्रेशन", "apiCalls": "API कॉल", "accuracy": "सटीकता" },
-  "common": { "loading": "लोड हो रहा है...", "error": "कुछ गलत हो गया", "retry": "फिर से कोशिश करें", "save": "सहेजें", "cancel": "रद्द करें", "delete": "हटाएं", "edit": "संपादित करें", "search": "खोजें", "filter": "फ़िल्टर", "noData": "कोई डेटा नहीं", "comingSoon": "जल्द आ रहा है" },
-  "footer": { "about": "हमारे बारे में", "privacy": "गोपनीयता", "terms": "शर्तें", "contact": "संपर्क", "download": "ऐप डाउनलोड (जल्द)", "copyright": "© 2024 कृषि मित्र। किसानों के लिए ❤️ से बनाया।" }
+  "common": { "loading": "लोड हो रहा है...", "error": "कुछ गलत हो गया", "retry": "फिर से कोशिश करें", "save": "सहेजें", "cancel": "रद्द करें", "delete": "हटाएं", "edit": "संपादित करें", "search": "खोजें", "filter": "फ़िल्टर", "noData": "कोई डेटा नहीं", "comingSoon": "जल्द आ रहा है", "learnMore": "और जानें" },
+  "footer": { "about": "हमारे बारे में", "privacy": "गोपनीयता", "terms": "शर्तें", "contact": "संपर्क", "download": "ऐप डाउनलोड (जल्द)", "copyright": "© 2024 कृषि मित्र। किसानों के लिए ❤️ से बनाया।", "quickLinks": "त्वरित लिंक", "resources": "संसाधन" }
 }

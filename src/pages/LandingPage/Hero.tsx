@@ -8,8 +8,10 @@ import Container from '@/components/layout/Container';
 
 // Animated Hero Illustration — floating farm scene built with motion divs and icons
 function HeroIllustration() {
+  const { t } = useTranslation();
+
   return (
-    <div className="relative w-full max-w-lg mx-auto h-[460px]">
+    <div className="relative w-full max-w-xl mx-auto h-[460px]">
       {/* Central Elements Wrapper */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
         {/* Central glowing orb */}
@@ -48,7 +50,7 @@ function HeroIllustration() {
       {/* Floating Feature Cards */}
       {/* Scan Crop */}
       <motion.div
-        className="absolute top-8 left-4 sm:left-8"
+        className="absolute top-8 left-2 sm:-left-4 lg:-left-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.6 }}
@@ -61,16 +63,16 @@ function HeroIllustration() {
           <div className="w-10 h-10 rounded-xl bg-red-500/15 flex items-center justify-center">
             <Bug className="w-5 h-5 text-red-400" />
           </div>
-          <div>
-            <p className="text-sm font-semibold text-text-primary">Disease Scan</p>
-            <p className="text-[10px] text-text-muted">AI-Powered Detection</p>
+          <div className="flex flex-col gap-1">
+            <p className="text-sm font-semibold text-text-primary leading-snug">{t('hero.cards.disease')}</p>
+            <p className="text-[11px] text-text-muted leading-snug">{t('hero.cards.diseaseSub')}</p>
           </div>
         </motion.div>
       </motion.div>
 
       {/* Weather */}
       <motion.div
-        className="absolute top-8 right-4 sm:right-8"
+        className="absolute top-8 right-2 sm:-right-4 lg:-right-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, duration: 0.6 }}
@@ -83,16 +85,16 @@ function HeroIllustration() {
           <div className="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center">
             <Sun className="w-5 h-5 text-amber-400" />
           </div>
-          <div>
-            <p className="text-sm font-semibold text-text-primary">Weather</p>
-            <p className="text-[10px] text-text-muted">Real-time Advisory</p>
+          <div className="flex flex-col gap-1">
+            <p className="text-sm font-semibold text-text-primary leading-snug">{t('hero.cards.weather')}</p>
+            <p className="text-[11px] text-text-muted leading-snug">{t('hero.cards.weatherSub')}</p>
           </div>
         </motion.div>
       </motion.div>
 
       {/* Smart Irrigation */}
       <motion.div
-        className="absolute bottom-16 left-0 sm:left-4"
+        className="absolute bottom-16 left-0 sm:-left-6 lg:-left-12"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9, duration: 0.6 }}
@@ -105,16 +107,16 @@ function HeroIllustration() {
           <div className="w-10 h-10 rounded-xl bg-blue-500/15 flex items-center justify-center">
             <Droplets className="w-5 h-5 text-blue-400" />
           </div>
-          <div>
-            <p className="text-sm font-semibold text-text-primary">Irrigation</p>
-            <p className="text-[10px] text-text-muted">Soil Moisture Tracking</p>
+          <div className="flex flex-col gap-1">
+            <p className="text-sm font-semibold text-text-primary leading-snug">{t('hero.cards.irrigation')}</p>
+            <p className="text-[11px] text-text-muted leading-snug">{t('hero.cards.irrigationSub')}</p>
           </div>
         </motion.div>
       </motion.div>
 
       {/* Fertilizer */}
       <motion.div
-        className="absolute bottom-12 right-0 sm:right-4"
+        className="absolute bottom-12 right-0 sm:-right-6 lg:-right-12"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.1, duration: 0.6 }}
@@ -127,19 +129,19 @@ function HeroIllustration() {
           <div className="w-10 h-10 rounded-xl bg-green-500/15 flex items-center justify-center">
             <Leaf className="w-5 h-5 text-green-400" />
           </div>
-          <div>
-            <p className="text-sm font-semibold text-text-primary">Fertilizer</p>
-            <p className="text-[10px] text-text-muted">NPK Recommendations</p>
+          <div className="flex flex-col gap-1">
+            <p className="text-sm font-semibold text-text-primary leading-snug">{t('hero.cards.fertilizer')}</p>
+            <p className="text-[11px] text-text-muted leading-snug">{t('hero.cards.fertilizerSub')}</p>
           </div>
         </motion.div>
       </motion.div>
 
       {/* Connecting dotted lines (decorative) */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-30">
-        <motion.line x1="50%" y1="50%" x2="20%" y2="15%" stroke="#52B788" strokeWidth="1.5" strokeDasharray="4 4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 1.2 }} />
-        <motion.line x1="50%" y1="50%" x2="80%" y2="15%" stroke="#52B788" strokeWidth="1.5" strokeDasharray="4 4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 1.4 }} />
-        <motion.line x1="50%" y1="50%" x2="20%" y2="85%" stroke="#52B788" strokeWidth="1.5" strokeDasharray="4 4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 1.6 }} />
-        <motion.line x1="50%" y1="50%" x2="80%" y2="85%" stroke="#52B788" strokeWidth="1.5" strokeDasharray="4 4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 1.8 }} />
+        <motion.line x1="50%" y1="50%" x2="15%" y2="15%" stroke="#52B788" strokeWidth="1.5" strokeDasharray="4 4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 1.2 }} />
+        <motion.line x1="50%" y1="50%" x2="85%" y2="15%" stroke="#52B788" strokeWidth="1.5" strokeDasharray="4 4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 1.4 }} />
+        <motion.line x1="50%" y1="50%" x2="15%" y2="85%" stroke="#52B788" strokeWidth="1.5" strokeDasharray="4 4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 1.6 }} />
+        <motion.line x1="50%" y1="50%" x2="85%" y2="85%" stroke="#52B788" strokeWidth="1.5" strokeDasharray="4 4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 1.8 }} />
       </svg>
 
       {/* Background glow */}
@@ -219,10 +221,10 @@ export default function Hero() {
           animate="animate"
           className="text-center lg:text-left"
         >
-          {/* Hindi tagline */}
+          {/* Tagline */}
           <motion.div variants={fadeInUp} className="mb-4">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-400/10 border border-primary-400/20 text-primary-400 text-sm font-medium">
-              🌾 {t('hero.titleHindi')}
+              🌾 {t('hero.tagline')}
             </span>
           </motion.div>
 

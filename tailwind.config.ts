@@ -45,8 +45,8 @@ const config: Config = {
         info: '#4CC9F0',
       },
       fontFamily: {
-        display: ['Playfair Display', 'serif'],
-        body: ['Plus Jakarta Sans', 'sans-serif'],
+        display: ['Playfair Display', 'Noto Sans Devanagari', 'serif'],
+        body: ['Plus Jakarta Sans', 'Noto Sans Devanagari', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
         hindi: ['Noto Sans Devanagari', 'sans-serif'],
       },

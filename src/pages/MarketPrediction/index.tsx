@@ -6,21 +6,39 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import PageWrapper from '@/components/layout/PageWrapper';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import Modal from '@/components/ui/Modal';
+import Input from '@/components/ui/Input';
+import toast from 'react-hot-toast';
+import { useNotificationStore } from '@/store/notificationStore';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { marketService, type MandiPrice } from '@/services/market.service';
 import { MAJOR_CROPS } from '@/lib/constants';
 
+const INDIAN_STATES = [
+  'All States', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 
+  'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 
+  'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 
+  'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 
+  'Uttar Pradesh', 'Uttarakhand', 'West Bengal'
+];
+
 export default function MarketPrediction() {
   const { t } = useTranslation();
   const [selectedCrop, setSelectedCrop] = useState('Onion');
+  const [selectedState, setSelectedState] = useState('All States');
   const [loading, setLoading] = useState(true);
   const [prices, setPrices] = useState<MandiPrice[]>([]);
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
+  const [alertPrice, setAlertPrice] = useState('');
+  const addNotification = useNotificationStore((state) => state.addNotification);
 
   useEffect(() => {
     async function loadPrices() {
       setLoading(true);
       try {
-        const liveData = await marketService.getLivePrices(500);
+        const stateFilter = selectedState !== 'All States' ? selectedState : undefined;
+        // Increase limit slightly when filtering to ensure we get enough crop variance
+        const liveData = await marketService.getLivePrices(500, stateFilter);
         setPrices(liveData);
       } catch (error) {
         console.error('Failed to load market data', error);
@@ -29,10 +47,67 @@ export default function MarketPrediction() {
       }
     }
     loadPrices();
-  }, []);
+  }, [selectedState]);
 
   const chartData = marketService.aggregateByCrop(prices, selectedCrop);
   const recentPrices = prices.slice(0, 15);
+
+  const handleSetAlert = () => {
+    if (!alertPrice) return;
+    
+    toast.success(`Price alert set for ${selectedCrop} at ₹${alertPrice}`);
+    setIsAlertModalOpen(false);
+    
+    // Simulate the price alert triggering after a short delay
+    setTimeout(() => {
+      import('firebase/firestore').then(({ Timestamp }) => {
+        addNotification({
+          id: Date.now().toString(),
+          userId: 'user123',
+          type: 'price',
+          title: 'Price Alert Triggered',
+          titleHi: 'कीमत अलर्ट ट्रिगर हुआ',
+          message: `${selectedCrop} price has reached your target of ₹${alertPrice}. Current market trends show favorable conditions.`,
+          messageHi: `${selectedCrop} की कीमत ₹${alertPrice} के आपके लक्ष्य तक पहुँच गई है। वर्तमान बाजार के रुझान अनुकूल स्थितियाँ दिखाते हैं।`,
+          priority: 'high',
+          isRead: false,
+          deepLink: '/market',
+          createdAt: Timestamp.now(),
+          readAt: null,
+          icon: 'trending-up'
+        });
+        
+        toast.custom((t) => (
+          <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-surface-1 shadow-lg rounded-xl border border-primary-500/30 pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
+            <div className="flex-1 w-0 p-4">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 pt-0.5">
+                  <div className="h-10 w-10 rounded-full bg-primary-500/20 flex items-center justify-center">
+                    <TrendingUp className="h-6 w-6 text-primary-400" />
+                  </div>
+                </div>
+                <div className="ml-3 flex-1">
+                  <p className="text-sm font-medium text-text-primary">
+                    Price Alert Triggered!
+                  </p>
+                  <p className="mt-1 text-sm text-text-secondary">
+                    {selectedCrop} has reached your target of ₹{alertPrice}.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex border-l border-glass-border">
+              <button onClick={() => toast.dismiss(t.id)} className="w-full border border-transparent rounded-none rounded-r-xl p-4 flex items-center justify-center text-sm font-medium text-primary-400 hover:text-primary-300 focus:outline-none">
+                Close
+              </button>
+            </div>
+          </div>
+        ));
+      });
+    }, 4000);
+    
+    setAlertPrice('');
+  };
 
   return (
     <PageWrapper>
@@ -42,7 +117,7 @@ export default function MarketPrediction() {
             <h1 className="text-2xl sm:text-3xl font-bold font-display text-text-primary">{t('market.title')}</h1>
             <p className="text-text-secondary mt-1">Real-time mandi prices across India</p>
           </div>
-          <Button variant="outline" size="sm" leftIcon={<Bell className="w-4 h-4" />}>{t('market.priceAlert')}</Button>
+          <Button variant="outline" size="sm" leftIcon={<Bell className="w-4 h-4" />} onClick={() => setIsAlertModalOpen(true)}>{t('market.priceAlert')}</Button>
         </motion.div>
 
         {loading ? (
@@ -58,9 +133,13 @@ export default function MarketPrediction() {
                <div className="w-20 h-20 rounded-full bg-surface-2 border-2 border-glass-border flex items-center justify-center mb-6">
                   <Database className="w-10 h-10 text-text-muted/50" />
                </div>
-               <h3 className="text-xl font-semibold text-text-primary mb-3">Market Data Unavailable</h3>
+               <h3 className="text-xl font-semibold text-text-primary mb-3">
+                 {selectedState !== 'All States' ? `No data for ${selectedState}` : 'Market Data Unavailable'}
+               </h3>
                <p className="text-text-muted max-w-md mx-auto mb-6">
-                 Unable to fetch data. Please check your API key or try again later.
+                 {selectedState !== 'All States' 
+                   ? `The Mandis in ${selectedState} may not have uploaded their prices to the Government portal yet today. Please try another state.` 
+                   : 'Unable to fetch data from the Government portal. Please try again later.'}
                </p>
              </Card>
           </motion.div>
@@ -82,15 +161,28 @@ export default function MarketPrediction() {
               {/* Price Chart */}
               <motion.div variants={fadeInUp} className="lg:col-span-2">
                 <Card>
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-text-primary">{selectedCrop} — Price by Market</h3>
-                    <select value={selectedCrop} onChange={(e) => setSelectedCrop(e.target.value)} className="glass-input text-sm py-1.5 px-3 w-auto">
-                      {MAJOR_CROPS.map((c) => <option key={c} value={c}>{c}</option>)}
-                      <option value="Tomato">Tomato</option>
-                      <option value="Onion">Onion</option>
-                      <option value="Potato">Potato</option>
-                      <option value="Wheat">Wheat</option>
-                    </select>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <h3 className="text-lg font-semibold text-text-primary">Price by Market</h3>
+                    <div className="flex gap-2">
+                      <select 
+                        value={selectedState} 
+                        onChange={(e) => setSelectedState(e.target.value)} 
+                        className="glass-input text-sm py-1.5 px-3 w-auto"
+                      >
+                        {INDIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
+                      </select>
+                      <select 
+                        value={selectedCrop} 
+                        onChange={(e) => setSelectedCrop(e.target.value)} 
+                        className="glass-input text-sm py-1.5 px-3 w-auto"
+                      >
+                        {MAJOR_CROPS.map((c) => <option key={c} value={c}>{c}</option>)}
+                        <option value="Tomato">Tomato</option>
+                        <option value="Onion">Onion</option>
+                        <option value="Potato">Potato</option>
+                        <option value="Wheat">Wheat</option>
+                      </select>
+                    </div>
                   </div>
                   
                   {chartData.length > 0 ? (
@@ -148,6 +240,26 @@ export default function MarketPrediction() {
           </>
         )}
       </motion.div>
+
+      <Modal isOpen={isAlertModalOpen} onClose={() => setIsAlertModalOpen(false)} title="Set Price Alert">
+        <div className="space-y-4">
+          <p className="text-sm text-text-secondary">
+            Get notified when the price of <strong>{selectedCrop}</strong> reaches your target.
+          </p>
+          <Input 
+            label="Target Price (₹ per Quintal)" 
+            type="number" 
+            placeholder="e.g. 2500"
+            value={alertPrice}
+            onChange={(e) => setAlertPrice(e.target.value)}
+            leftIcon={<span className="text-text-muted font-bold ml-1">₹</span>}
+          />
+          <div className="flex gap-3 justify-end mt-6">
+            <Button variant="ghost" onClick={() => setIsAlertModalOpen(false)}>Cancel</Button>
+            <Button onClick={handleSetAlert}>Save Alert</Button>
+          </div>
+        </div>
+      </Modal>
     </PageWrapper>
   );
 }

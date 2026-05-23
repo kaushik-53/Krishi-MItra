@@ -62,7 +62,7 @@ export default function Features() {
 
                 {/* Hover glow */}
                 <div className="mt-4 flex items-center gap-1 text-primary-400 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                  Learn more <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  {t('common.learnMore')} <span className="group-hover:translate-x-1 transition-transform">→</span>
                 </div>
               </motion.div>
             );

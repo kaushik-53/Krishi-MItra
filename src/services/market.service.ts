@@ -16,12 +16,15 @@ export const marketService = {
   /**
    * Fetch live mandi prices from Data.gov.in Agmarknet API
    */
-  async getLivePrices(limit = 100): Promise<MandiPrice[]> {
+  async getLivePrices(limit = 100, state?: string): Promise<MandiPrice[]> {
     const key = ENV.market.dataGovKey;
     if (!key) return [];
     
     try {
-      const url = `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=${key}&format=json&limit=${limit}`;
+      let url = `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=${key}&format=json&limit=${limit}`;
+      if (state) {
+        url += `&filters[state.keyword]=${encodeURIComponent(state)}`;
+      }
       const res = await fetch(url);
       if (!res.ok) throw new Error('Failed to fetch market data');
       
