@@ -5,7 +5,6 @@ import { queryClient } from '@/config/queryClient';
 import '@/config/i18n';
 import AppRoutes from '@/routes';
 import { useAuth } from '@/hooks/useAuth';
-import VoiceFAB from '@/components/common/VoiceFAB';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 
 function AuthListener() {
@@ -20,7 +19,6 @@ export default function App() {
         <BrowserRouter>
           <AuthListener />
           <AppRoutes />
-          <VoiceFAB />
           <Toaster
             position="top-right"
             toastOptions={{
