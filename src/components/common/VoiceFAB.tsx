@@ -1,15 +1,19 @@
 import { motion } from 'framer-motion';
 import { Mic } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { APP_ROUTES } from '@/lib/constants';
 import { ENV } from '@/config/env';
 
 export default function VoiceFAB() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
 
   if (!ENV.features.voice) return null;
+
+  const hideOnRoutes = ['/', '/auth/login', '/auth/register', '/dashboard'];
+  if (hideOnRoutes.includes(location.pathname)) return null;
 
   return (
     <motion.button

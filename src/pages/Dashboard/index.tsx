@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Bug, CloudSun, Sprout, TrendingUp, MessageCircle, Mic, Bell, Calendar } from 'lucide-react';
@@ -17,6 +18,14 @@ export default function Dashboard() {
   const { t } = useTranslation();
   const { user } = useAuthStore();
   const navigate = useNavigate();
+  const [greeting, setGreeting] = useState(getGreeting());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGreeting(getGreeting());
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <PageWrapper>
@@ -25,7 +34,7 @@ export default function Dashboard() {
         <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold font-display text-text-primary">
-              {getGreeting()}, {user?.displayName?.split(' ')[0] || t('app.name')}! 👋
+              {greeting}, {user?.displayName?.split(' ')[0] || t('app.name')}! 👋
             </h1>
             <p className="text-text-secondary mt-1">
               {t('app.tagline')} • <span className="text-primary-400 font-mono text-sm">{getSeason()} Season</span>
@@ -50,14 +59,13 @@ export default function Dashboard() {
         {/* Module Cards Grid */}
         <motion.div variants={fadeInUp}>
           <h2 className="text-lg font-semibold text-text-primary mb-4 font-body">{t('dashboard.quickActions')}</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             {[
               { icon: Bug, label: t('nav.diseaseDetection'), route: APP_ROUTES.diseaseDetection, color: 'from-red-500/20 to-orange-500/10', iconColor: 'text-red-400' },
               { icon: CloudSun, label: t('nav.weather'), route: APP_ROUTES.weather, color: 'from-blue-500/20 to-cyan-500/10', iconColor: 'text-blue-400' },
               { icon: Sprout, label: t('nav.fertilizer'), route: APP_ROUTES.fertilizer, color: 'from-green-500/20 to-emerald-500/10', iconColor: 'text-green-400' },
               { icon: TrendingUp, label: t('nav.market'), route: APP_ROUTES.market, color: 'from-amber-500/20 to-yellow-500/10', iconColor: 'text-amber-400' },
               { icon: MessageCircle, label: t('nav.chatbot'), route: APP_ROUTES.chatbot, color: 'from-purple-500/20 to-pink-500/10', iconColor: 'text-purple-400' },
-              { icon: Mic, label: t('nav.voiceAssistant'), route: APP_ROUTES.voiceAssistant, color: 'from-primary-500/20 to-teal-500/10', iconColor: 'text-primary-400' },
             ].map((item) => {
               const Icon = item.icon;
               return (

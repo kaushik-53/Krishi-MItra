@@ -7,6 +7,7 @@ import Testimonials from './Testimonials';
 import CTASection from './CTASection';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import FloatingGuide from '@/components/ui/FloatingGuide';
 
 export default function LandingPage() {
   const { isAuthenticated, isLoading } = useAuthStore();
@@ -25,6 +26,7 @@ export default function LandingPage() {
       <Testimonials />
       <CTASection />
       <Footer />
+      <FloatingGuide />
     </div>
   );
 }
