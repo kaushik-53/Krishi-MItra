@@ -3,6 +3,8 @@
   "nav": { "home": "होम", "dashboard": "डैशबोर्ड", "diseaseDetection": "रोग पहचान", "weather": "मौसम सलाह", "fertilizer": "उर्वरक गाइड", "market": "बाज़ार भाव", "chatbot": "AI चैटबॉट", "voiceAssistant": "वॉयस असिस्टेंट", "notifications": "सूचनाएं", "farmProfile": "खेत प्रोफ़ाइल", "admin": "एडमिन डैशबोर्ड", "logout": "लॉगआउट", "login": "लॉगिन", "register": "रजिस्टर" },
   "hero": { 
     "title": "खेती की नई राह", 
+    "titlePart1": "खेती की", 
+    "titlePart2": "नई राह", 
     "tagline": "खेती की नई राह", 
     "titleHindi": "खेती की नई राह", 
     "subtitle": "15 करोड़+ भारतीय किसानों के लिए AI-संचालित सलाह", 

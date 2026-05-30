@@ -22,6 +22,8 @@
   },
   "hero": {
     "title": "The New Path for Farming",
+    "titlePart1": "The New Path for",
+    "titlePart2": "Farming",
     "tagline": "Farming's New Path",
     "titleHindi": "खेती की नई राह",
     "subtitle": "AI-powered advisory for 150M+ Indian farmers",

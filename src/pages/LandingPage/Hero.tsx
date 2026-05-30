@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -6,37 +7,123 @@ import Button from '@/components/ui/Button';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import Container from '@/components/layout/Container';
 
-// Animated Hero Illustration — floating farm scene built with motion divs and icons
+// Animated Hero Illustration — centered plant, percentage-width cards that never overlap
 function HeroIllustration() {
   const { t } = useTranslation();
 
-  return (
-    <div className="relative w-full max-w-xl mx-auto h-[460px]">
-      {/* Central Elements Wrapper */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-        {/* Central glowing orb */}
-        <motion.div
-          className="absolute w-64 h-64 rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(82,183,136,0.2) 0%, transparent 70%)' }}
-          animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
-          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' as const }}
-        />
+  const cards = [
+    {
+      icon: <Bug className="w-5 h-5 text-red-400" />,
+      bg: 'bg-red-500/15',
+      title: t('hero.cards.disease'),
+      sub: t('hero.cards.diseaseSub'),
+      yAnim: [0, -8, 0],
+      duration: 4,
+      delay: 0,
+      pos: 'top-6 left-0 w-[46%]',
+      entryX: -20,
+      entryDelay: 0.5,
+    },
+    {
+      icon: <Sun className="w-5 h-5 text-amber-400" />,
+      bg: 'bg-amber-500/15',
+      title: t('hero.cards.weather'),
+      sub: t('hero.cards.weatherSub'),
+      yAnim: [0, -10, 0],
+      duration: 5,
+      delay: 1,
+      pos: 'top-6 right-0 w-[46%]',
+      entryX: 20,
+      entryDelay: 0.7,
+    },
+    {
+      icon: <Droplets className="w-5 h-5 text-blue-400" />,
+      bg: 'bg-blue-500/15',
+      title: t('hero.cards.irrigation'),
+      sub: t('hero.cards.irrigationSub'),
+      yAnim: [0, -6, 0],
+      duration: 4.5,
+      delay: 0.5,
+      pos: 'bottom-6 left-0 w-[46%]',
+      entryX: -20,
+      entryDelay: 0.9,
+    },
+    {
+      icon: <Leaf className="w-5 h-5 text-green-400" />,
+      bg: 'bg-green-500/15',
+      title: t('hero.cards.fertilizer'),
+      sub: t('hero.cards.fertilizerSub'),
+      yAnim: [0, -9, 0],
+      duration: 5.5,
+      delay: 2,
+      pos: 'bottom-6 right-0 w-[46%]',
+      entryX: 20,
+      entryDelay: 1.1,
+    },
+  ];
 
-        {/* Ring orbits */}
+  // Lines from center to the inner-most point of each card quadrant
+  const lineEndpoints = [
+    { x2: '23%', y2: '20%' }, // disease — top-left
+    { x2: '77%', y2: '20%' }, // weather — top-right
+    { x2: '23%', y2: '80%' }, // irrigation — bottom-left
+    { x2: '77%', y2: '80%' }, // fertilizer — bottom-right
+  ];
+
+  return (
+    <div className="relative w-full max-w-lg mx-auto h-[440px] select-none">
+      {/* Ambient background glow */}
+      <div className="absolute -inset-16 bg-primary-400/5 rounded-full blur-3xl -z-10" />
+
+      {/* SVG connecting lines */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        style={{ zIndex: 1 }}
+      >
+        {lineEndpoints.map((pt, i) => (
+          <motion.line
+            key={i}
+            x1="50%" y1="50%"
+            x2={pt.x2} y2={pt.y2}
+            stroke="#52B788"
+            strokeWidth="1.5"
+            strokeDasharray="5 5"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 0.45 }}
+            transition={{ duration: 1.2, delay: 1.2 + i * 0.15, ease: 'easeOut' as const }}
+          />
+        ))}
+      </svg>
+
+      {/* Ring orbits — centered on the container */}
+      <div
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        style={{ zIndex: 0 }}
+      >
         <motion.div
-          className="absolute w-72 h-72 rounded-full border border-primary-400/10"
+          className="absolute w-52 h-52 rounded-full border border-primary-400/10"
           animate={{ rotate: 360 }}
           transition={{ duration: 30, repeat: Infinity, ease: 'linear' as const }}
         />
         <motion.div
-          className="absolute w-96 h-96 rounded-full border border-primary-400/5"
+          className="absolute w-80 h-80 rounded-full border border-primary-400/5"
           animate={{ rotate: -360 }}
           transition={{ duration: 45, repeat: Infinity, ease: 'linear' as const }}
         />
-
-        {/* Central Plant SVG */}
         <motion.div
-          className="relative"
+          className="absolute w-44 h-44 rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(82,183,136,0.22) 0%, transparent 70%)' }}
+          animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' as const }}
+        />
+      </div>
+
+      {/* Center plant — pinned to exact container midpoint */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        style={{ zIndex: 2 }}
+      >
+        <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] as const }}
@@ -47,111 +134,40 @@ function HeroIllustration() {
         </motion.div>
       </div>
 
-      {/* Floating Feature Cards */}
-      {/* Scan Crop */}
-      <motion.div
-        className="absolute top-8 left-2 sm:-left-4 lg:-left-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.6 }}
-      >
+      {/* Feature cards — w-[46%] wrappers ensure they never overlap */}
+      {cards.map((card, i) => (
         <motion.div
-          className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-surface-1/80 backdrop-blur-md border border-glass-border shadow-xl"
-          animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' as const }}
+          key={i}
+          className={`absolute ${card.pos}`}
+          style={{ zIndex: 3 }}
+          initial={{ opacity: 0, x: card.entryX }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: card.entryDelay, duration: 0.6 }}
         >
-          <div className="w-10 h-10 rounded-xl bg-red-500/15 flex items-center justify-center">
-            <Bug className="w-5 h-5 text-red-400" />
-          </div>
-          <div className="flex flex-col gap-1">
-            <p className="text-sm font-semibold text-text-primary leading-snug">{t('hero.cards.disease')}</p>
-            <p className="text-[11px] text-text-muted leading-snug">{t('hero.cards.diseaseSub')}</p>
-          </div>
+          <motion.div
+            className="w-full flex items-center gap-2.5 px-3 py-3 rounded-2xl bg-surface-1/80 backdrop-blur-md border border-glass-border shadow-xl"
+            animate={{ y: card.yAnim }}
+            transition={{ duration: card.duration, repeat: Infinity, ease: 'easeInOut' as const, delay: card.delay }}
+          >
+            <div className={`w-9 h-9 rounded-xl ${card.bg} flex items-center justify-center shrink-0`}>
+              {card.icon}
+            </div>
+            <div className="flex flex-col gap-0.5 min-w-0">
+              <p className="text-xs font-semibold text-text-primary leading-snug">{card.title}</p>
+              <p className="text-[9px] text-text-muted leading-snug line-clamp-2">{card.sub}</p>
+            </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
-
-      {/* Weather */}
-      <motion.div
-        className="absolute top-8 right-2 sm:-right-4 lg:-right-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7, duration: 0.6 }}
-      >
-        <motion.div
-          className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-surface-1/80 backdrop-blur-md border border-glass-border shadow-xl"
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' as const, delay: 1 }}
-        >
-          <div className="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center">
-            <Sun className="w-5 h-5 text-amber-400" />
-          </div>
-          <div className="flex flex-col gap-1">
-            <p className="text-sm font-semibold text-text-primary leading-snug">{t('hero.cards.weather')}</p>
-            <p className="text-[11px] text-text-muted leading-snug">{t('hero.cards.weatherSub')}</p>
-          </div>
-        </motion.div>
-      </motion.div>
-
-      {/* Smart Irrigation */}
-      <motion.div
-        className="absolute bottom-16 left-0 sm:-left-6 lg:-left-12"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9, duration: 0.6 }}
-      >
-        <motion.div
-          className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-surface-1/80 backdrop-blur-md border border-glass-border shadow-xl"
-          animate={{ y: [0, -6, 0] }}
-          transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' as const, delay: 0.5 }}
-        >
-          <div className="w-10 h-10 rounded-xl bg-blue-500/15 flex items-center justify-center">
-            <Droplets className="w-5 h-5 text-blue-400" />
-          </div>
-          <div className="flex flex-col gap-1">
-            <p className="text-sm font-semibold text-text-primary leading-snug">{t('hero.cards.irrigation')}</p>
-            <p className="text-[11px] text-text-muted leading-snug">{t('hero.cards.irrigationSub')}</p>
-          </div>
-        </motion.div>
-      </motion.div>
-
-      {/* Fertilizer */}
-      <motion.div
-        className="absolute bottom-12 right-0 sm:-right-6 lg:-right-12"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.1, duration: 0.6 }}
-      >
-        <motion.div
-          className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-surface-1/80 backdrop-blur-md border border-glass-border shadow-xl"
-          animate={{ y: [0, -9, 0] }}
-          transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' as const, delay: 2 }}
-        >
-          <div className="w-10 h-10 rounded-xl bg-green-500/15 flex items-center justify-center">
-            <Leaf className="w-5 h-5 text-green-400" />
-          </div>
-          <div className="flex flex-col gap-1">
-            <p className="text-sm font-semibold text-text-primary leading-snug">{t('hero.cards.fertilizer')}</p>
-            <p className="text-[11px] text-text-muted leading-snug">{t('hero.cards.fertilizerSub')}</p>
-          </div>
-        </motion.div>
-      </motion.div>
-
-      {/* Connecting dotted lines (decorative) */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-30">
-        <motion.line x1="50%" y1="50%" x2="15%" y2="15%" stroke="#52B788" strokeWidth="1.5" strokeDasharray="4 4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 1.2 }} />
-        <motion.line x1="50%" y1="50%" x2="85%" y2="15%" stroke="#52B788" strokeWidth="1.5" strokeDasharray="4 4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 1.4 }} />
-        <motion.line x1="50%" y1="50%" x2="15%" y2="85%" stroke="#52B788" strokeWidth="1.5" strokeDasharray="4 4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 1.6 }} />
-        <motion.line x1="50%" y1="50%" x2="85%" y2="85%" stroke="#52B788" strokeWidth="1.5" strokeDasharray="4 4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 1.8 }} />
-      </svg>
-
-      {/* Background glow */}
-      <div className="absolute -inset-16 bg-primary-400/5 rounded-full blur-3xl -z-10" />
+      ))}
     </div>
   );
 }
 
+
+
+
 export default function Hero() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   return (
@@ -213,7 +229,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <Container clean className="relative z-10 grid lg:grid-cols-2 gap-12 items-center" size="lg">
+      <Container clean className="relative z-10 grid lg:grid-cols-2 gap-12 items-center" size="md">
         {/* Left: Text content */}
         <motion.div
           variants={staggerContainer}
@@ -231,16 +247,22 @@ export default function Hero() {
           {/* Main headline */}
           <motion.h1
             variants={fadeInUp}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display leading-tight mb-6"
+            className={`font-bold font-display mb-4 ${
+              i18n.language === 'hi'
+                ? 'text-5xl sm:text-6xl lg:text-7xl leading-normal'
+                : 'text-4xl sm:text-5xl lg:text-6xl leading-tight'
+            }`}
           >
-            <span className="text-text-primary">{t('hero.title').split(' ').slice(0, 2).join(' ')}</span>{' '}
-            <span className="text-gradient">{t('hero.title').split(' ').slice(2).join(' ')}</span>
+            <span className="text-text-primary">{t('hero.titlePart1')}</span>{' '}
+            <span className="text-gradient">{t('hero.titlePart2')}</span>
           </motion.h1>
 
           {/* Subtitle */}
           <motion.p
             variants={fadeInUp}
-            className="text-lg sm:text-xl text-text-secondary max-w-xl mx-auto lg:mx-0 mb-8"
+            className={`text-lg sm:text-xl text-text-secondary max-w-xl mx-auto lg:mx-0 ${
+              i18n.language === 'hi' ? 'mb-5' : 'mb-8'
+            }`}
           >
             {t('hero.subtitle')}
           </motion.p>
@@ -267,7 +289,7 @@ export default function Hero() {
           {/* Live stats */}
           <motion.div
             variants={fadeInUp}
-            className="mt-12 grid grid-cols-3 gap-4"
+            className={i18n.language === 'hi' ? 'mt-8 grid grid-cols-3 gap-4' : 'mt-12 grid grid-cols-3 gap-4'}
           >
             {[
               { value: '50K+', label: t('stats.farmersHelped') },

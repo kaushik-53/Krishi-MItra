@@ -19,4 +19,12 @@ i18n.use(initReactI18next).init({
   },
 });
 
+// Sync html[lang] whenever language changes
+i18n.on('languageChanged', (lng) => {
+  document.documentElement.lang = lng; // 'en' or 'hi'
+});
+
+// Also set it on init
+document.documentElement.lang = i18n.language;
+
 export default i18n;

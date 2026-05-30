@@ -162,7 +162,7 @@ export default function FarmProfile() {
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex items-center gap-3 p-4 rounded-xl bg-surface-2/50 border border-glass-border">
-                  <div className="w-10 h-10 rounded-xl bg-primary-400/10 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-primary-400/10 flex items-center justify-center shrink-0">
                     <MapPin className="w-5 h-5 text-primary-400" />
                   </div>
                   <div>
@@ -171,7 +171,7 @@ export default function FarmProfile() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-4 rounded-xl bg-surface-2/50 border border-glass-border">
-                  <div className="w-10 h-10 rounded-xl bg-amber-400/10 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-amber-400/10 flex items-center justify-center shrink-0">
                     <Ruler className="w-5 h-5 text-amber-500" />
                   </div>
                   <div>
@@ -180,7 +180,7 @@ export default function FarmProfile() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-4 rounded-xl bg-surface-2/50 border border-glass-border">
-                  <div className="w-10 h-10 rounded-xl bg-blue-400/10 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-blue-400/10 flex items-center justify-center shrink-0">
                     <Droplets className="w-5 h-5 text-blue-500" />
                   </div>
                   <div>
@@ -189,7 +189,7 @@ export default function FarmProfile() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-4 rounded-xl bg-surface-2/50 border border-glass-border">
-                  <div className="w-10 h-10 rounded-xl bg-green-400/10 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-green-400/10 flex items-center justify-center shrink-0">
                     <Sprout className="w-5 h-5 text-green-500" />
                   </div>
                   <div>

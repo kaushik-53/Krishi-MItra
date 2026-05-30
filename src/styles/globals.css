@@ -137,3 +137,26 @@
     text-wrap: balance;
   }
 }
+
+:lang(hi), [lang="hi"] {
+  line-height: 1.8;
+  font-family: 'Noto Sans Devanagari', sans-serif;
+}
+
+:lang(hi) h1,
+:lang(hi) h2,
+:lang(hi) h3,
+:lang(hi) h4,
+:lang(hi) h5,
+:lang(hi) h6 {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+:lang(hi) h1 {
+  font-family: 'Noto Sans Devanagari', sans-serif !important;
+}
+
+
+
