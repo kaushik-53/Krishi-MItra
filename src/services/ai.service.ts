@@ -5,11 +5,11 @@ export const aiService = {
     const key = ENV.ai.geminiKey;
     if (!key) return { response: 'AI service not configured. Please add your Gemini API key.', fallback: true };
 
-    const langInstruction = context?.preferredLanguage === 'hi' 
+    const langInstruction = context?.preferredLanguage === 'hi'
       ? 'CRITICAL: You MUST respond ONLY in Hindi (Devanagari script). Do not use English.'
       : context?.preferredLanguage === 'en'
-      ? 'CRITICAL: You MUST respond ONLY in English.'
-      : 'CRITICAL: You MUST respond in the EXACT same language the user uses in their prompt.';
+        ? 'CRITICAL: You MUST respond ONLY in English.'
+        : 'CRITICAL: You MUST respond in the EXACT same language the user uses in their prompt.';
 
     const systemPrompt = `You are Krishi Mitra, a friendly AI assistant for Indian farmers.
 ${langInstruction}
@@ -37,23 +37,24 @@ When unsure, recommend consulting local KVK (Krishi Vigyan Kendra).`;
   },
 
   async detectDisease(imageBase64: string) {
-    const key = ENV.ai.geminiKey;
-    if (!key) return null;
+    const baseUrl = ENV.ai.baseUrl || 'http://localhost:8000';
     try {
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
+      const res = await fetch(`${baseUrl}/api/v1/detect`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{
-            parts: [
-              { text: 'Analyze this plant/crop leaf image. Identify the disease, confidence level, severity, treatment options (organic and chemical), and prevention tips. Respond in JSON format.' },
-              { inlineData: { mimeType: 'image/jpeg', data: imageBase64 } },
-            ],
-          }],
-        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ image: imageBase64 }),
       });
-      if (!res.ok) throw new Error('Vision request failed');
-      return res.json();
-    } catch { return null; }
+
+      if (!res.ok) {
+        throw new Error('Local detection service returned an error');
+      }
+      return await res.json();
+    } catch (error: any) {
+      console.error('Failed to query local detection service:', error);
+      throw new Error(error.message === 'Local detection service returned an error' ? error.message : 'Local detection service offline');
+    }
   },
 };
+

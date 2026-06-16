@@ -99,74 +99,49 @@ export default function DiseaseDetection() {
       return;
     }
 
-    let parsedResult = demoResult;
-
-    if (ENV.ai.geminiKey) {
-      try {
-        const rawResponse = await aiService.detectDisease(base64Image);
-        const contentText = rawResponse?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (contentText) {
-          const start = contentText.indexOf('{');
-          const end = contentText.lastIndexOf('}');
-          if (start !== -1 && end !== -1) {
-            const jsonStr = contentText.substring(start, end + 1);
-            const data = JSON.parse(jsonStr);
-            parsedResult = {
-              diseaseName: data.diseaseName || 'Unknown Disease',
-              confidence: data.confidence || 85,
-              severity: (['low', 'medium', 'high', 'critical'].includes(data.severity?.toLowerCase()) ? data.severity.toLowerCase() : 'low') as any,
-              description: data.description || '',
-              treatments: Array.isArray(data.treatments) ? data.treatments.map((t: any) => ({
-                type: t.type === 'chemical' ? 'chemical' : 'organic',
-                name: t.name || '',
-                dosage: t.dosage || '',
-                application: t.application || ''
-              })) : demoResult.treatments,
-              prevention: Array.isArray(data.prevention) ? data.prevention : demoResult.prevention
-            };
-          }
-        }
-      } catch (error) {
-        console.error('Error analyzing image with Gemini:', error);
-        toast('AI service temporarily unavailable. Falling back to local offline analysis.', { icon: '⚠️' });
-      }
-    } else {
-      // Small simulated delay for demo mode if no API key
-      await new Promise((r) => setTimeout(r, 2000));
-    }
-
-    // Save to Firestore Database instead of Firebase Storage
     try {
-      await diseaseService.saveDetection({
-        imageUrl: `data:image/jpeg;base64,${base64Image}`,
-        imageUrls: [],
-        diseaseName: parsedResult.diseaseName,
-        diseaseNameHi: parsedResult.diseaseName,
-        confidence: parsedResult.confidence,
-        severity: parsedResult.severity,
-        description: parsedResult.description,
-        descriptionHi: parsedResult.description,
-        treatments: parsedResult.treatments.map(t => ({
-          type: t.type,
-          name: t.name,
-          nameHi: t.name,
-          dosage: t.dosage,
-          application: t.application,
-          applicationHi: t.application,
-          precautions: []
-        })),
-        preventionTips: parsedResult.prevention,
-        preventionTipsHi: parsedResult.prevention,
-        cropType: 'Crop',
-      });
-      toast.success('Analysis completed and saved to history!');
-    } catch (dbError) {
-      console.error('Failed to save to history:', dbError);
-      toast.error('Failed to save analysis to history.');
-    }
+      const parsedResult = await aiService.detectDisease(base64Image);
+      if (!parsedResult || typeof parsedResult !== 'object' || !parsedResult.diseaseName) {
+        throw new Error('Invalid response from detection service');
+      }
 
-    setResult(parsedResult);
-    setIsAnalyzing(false);
+      // Save to Firestore Database instead of Firebase Storage
+      try {
+        await diseaseService.saveDetection({
+          imageUrl: `data:image/jpeg;base64,${base64Image}`,
+          imageUrls: [],
+          diseaseName: parsedResult.diseaseName,
+          diseaseNameHi: parsedResult.diseaseName,
+          confidence: parsedResult.confidence,
+          severity: parsedResult.severity,
+          description: parsedResult.description,
+          descriptionHi: parsedResult.description,
+          treatments: (parsedResult.treatments || []).map((t: any) => ({
+            type: t.type,
+            name: t.name,
+            nameHi: t.name,
+            dosage: t.dosage,
+            application: t.application,
+            applicationHi: t.application,
+            precautions: []
+          })),
+          preventionTips: parsedResult.prevention || [],
+          preventionTipsHi: parsedResult.prevention || [],
+          cropType: 'Crop',
+        });
+        toast.success('Analysis completed and saved to history!');
+      } catch (dbError) {
+        console.error('Failed to save to history:', dbError);
+        toast.error('Failed to save analysis to history.');
+      }
+
+      setResult(parsedResult);
+    } catch (error: any) {
+      console.error('Disease detection failed:', error);
+      toast.error(error.message || 'Local detection service offline');
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   const fetchHistory = async () => {
