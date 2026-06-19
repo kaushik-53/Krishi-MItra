@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail } from 'firebase/auth';
 import { doc, setDoc, Timestamp } from 'firebase/firestore';
 import { auth, db, isFirebaseConfigured } from '@/config/firebase';
 import { useAuthStore } from '@/store/authStore';
@@ -12,7 +12,7 @@ import { loginSchema, registerSchema, type LoginInput, type RegisterInput } from
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import toast from 'react-hot-toast';
-import { Mail, Lock, User, Eye, EyeOff, Sprout, Cloud, Sun } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, Sprout, Cloud, Sun, X, KeyRound } from 'lucide-react';
 
 export default function AuthPage() {
   const { mode } = useParams<{ mode: string }>();
@@ -22,6 +22,9 @@ export default function AuthPage() {
   const { isAuthenticated } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showForgotModal, setShowForgotModal] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [forgotLoading, setForgotLoading] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -97,6 +100,29 @@ export default function AuthPage() {
       toast.error(err instanceof Error ? err.message : 'Registration failed');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isFirebaseConfigured || !auth) {
+      toast.error('Firebase not configured.');
+      return;
+    }
+    if (!forgotEmail.trim()) {
+      toast.error('Please enter your email address.');
+      return;
+    }
+    try {
+      setForgotLoading(true);
+      await sendPasswordResetEmail(auth, forgotEmail.trim());
+      toast.success('Reset link sent! Check your inbox — and your Spam/Junk folder too.', { duration: 6000 });
+      setShowForgotModal(false);
+      setForgotEmail('');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to send reset email');
+    } finally {
+      setForgotLoading(false);
     }
   };
 
@@ -222,6 +248,15 @@ export default function AuthPage() {
                   >
                     <Input label={t('auth.email')} type="email" autoComplete="email" leftIcon={<Mail className="w-4 h-4" />} {...loginForm.register('email')} error={loginForm.formState.errors.email?.message} />
                     <Input label={t('auth.password')} type={showPassword ? 'text' : 'password'} autoComplete="current-password" leftIcon={<Lock className="w-4 h-4" />} rightIcon={<button type="button" onClick={() => setShowPassword(!showPassword)} className="text-text-muted hover:text-text-primary transition-colors">{showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}</button>} {...loginForm.register('password')} error={loginForm.formState.errors.password?.message} />
+                    <div className="flex justify-end -mt-2">
+                      <button
+                        type="button"
+                        onClick={() => setShowForgotModal(true)}
+                        className="text-xs text-primary-500 hover:text-primary-400 transition-colors font-medium"
+                      >
+                        {t('auth.forgotPassword')}
+                      </button>
+                    </div>
                     <Button type="submit" fullWidth isLoading={isLoading} className="mt-2 h-12">{t('auth.login')}</Button>
                   </motion.form>
                 ) : (
@@ -253,6 +288,81 @@ export default function AuthPage() {
           </motion.div>
         </div>
       </div>
+
+      {/* Forgot Password Modal */}
+      <AnimatePresence>
+        {showForgotModal && (
+          <motion.div
+            key="forgot-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            style={{ backdropFilter: 'blur(8px)', backgroundColor: 'rgba(0,0,0,0.5)' }}
+            onClick={(e) => { if (e.target === e.currentTarget) setShowForgotModal(false); }}
+          >
+            <motion.div
+              key="forgot-modal"
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="w-full max-w-sm glass-card p-8 shadow-2xl relative overflow-hidden"
+            >
+              {/* top gradient bar */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-400 to-amber-400" />
+
+              {/* Close button */}
+              <button
+                type="button"
+                onClick={() => setShowForgotModal(false)}
+                className="absolute top-4 right-4 text-text-muted hover:text-text-primary transition-colors"
+                aria-label="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Icon */}
+              <div className="flex justify-center mb-4">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-400/20 to-primary-600/20 flex items-center justify-center border border-primary-400/30">
+                  <KeyRound className="w-7 h-7 text-primary-400" />
+                </div>
+              </div>
+
+              <h3 className="text-xl font-bold font-display text-text-primary text-center mb-1">
+                Reset Your Password
+              </h3>
+              <p className="text-sm text-text-muted text-center mb-6">
+                Enter your email and we'll send you a link to reset your password.
+              </p>
+
+              <form onSubmit={handleForgotPassword} className="space-y-4">
+                <Input
+                  label={t('auth.email')}
+                  type="email"
+                  autoComplete="email"
+                  leftIcon={<Mail className="w-4 h-4" />}
+                  value={forgotEmail}
+                  onChange={(e) => setForgotEmail(e.target.value)}
+                  placeholder="your@email.com"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  isLoading={forgotLoading}
+                  className="h-11"
+                >
+                  Send Reset Link
+                </Button>
+              </form>
+              <p className="text-xs text-text-muted text-center mt-4 flex items-center justify-center gap-1.5">
+                <span>📬</span>
+                <span>Didn't see it? Check your <strong className="text-text-secondary">Spam / Junk</strong> folder.</span>
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
