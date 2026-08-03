@@ -11,7 +11,6 @@ import PageWrapper from '@/components/layout/PageWrapper';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import WeatherWidget from './WeatherWidget';
-import QuickActions from './QuickActions';
 import AlertsFeed from './AlertsFeed';
 
 export default function Dashboard() {
@@ -46,13 +45,13 @@ export default function Dashboard() {
           </Badge>
         </motion.div>
 
-        {/* Weather + Quick Actions Row */}
+        {/* Weather + Alerts Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <motion.div variants={fadeInUp} className="lg:col-span-2">
             <WeatherWidget />
           </motion.div>
           <motion.div variants={fadeInUp}>
-            <QuickActions />
+            <AlertsFeed />
           </motion.div>
         </div>
 
@@ -78,11 +77,6 @@ export default function Dashboard() {
               );
             })}
           </div>
-        </motion.div>
-
-        {/* Alerts Feed */}
-        <motion.div variants={fadeInUp}>
-          <AlertsFeed />
         </motion.div>
       </motion.div>
     </PageWrapper>

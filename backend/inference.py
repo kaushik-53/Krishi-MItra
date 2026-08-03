@@ -3,9 +3,14 @@ import io
 import base64
 import hashlib
 from PIL import Image
-import torch
-import torchvision.transforms as transforms
-import torchvision.models as models
+try:
+    import torch
+    import torchvision.transforms as transforms
+    import torchvision.models as models
+    HAS_TORCH = True
+except (ImportError, OSError) as e:
+    print(f"Warning: PyTorch or its dependencies could not be loaded ({e}). Falling back to simulation mode.")
+    HAS_TORCH = False
 
 # List of all 38 classes in the standard PlantVillage dataset
 PLANT_VILLAGE_CLASSES = [
@@ -303,36 +308,42 @@ for class_name in PLANT_VILLAGE_CLASSES:
 
 class PlantDiseaseModel:
     def __init__(self):
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.model = None
         self.classes = PLANT_VILLAGE_CLASSES
-        self.transform = transforms.Compose([
-            transforms.Resize((224, 224)),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-        ])
+        self.model = None
+        self.device = "cpu"
         
-        # Load weights if available
-        self.weights_path = os.path.join(os.path.dirname(__file__), "weights", "best_model.pth")
-        if os.path.exists(self.weights_path):
+        if HAS_TORCH:
             try:
-                print(f"Loading PyTorch weights from {self.weights_path}...")
-                # Use EfficientNet-B0 as standard backbone (can change based on train.py)
-                self.model = models.efficientnet_b0(pretrained=False)
-                # Modify output layer to match the 38 classes
-                num_features = self.model.classifier[1].in_features
-                self.model.classifier[1] = torch.nn.Linear(num_features, len(self.classes))
+                self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+                self.transform = transforms.Compose([
+                    transforms.Resize((224, 224)),
+                    transforms.ToTensor(),
+                    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+                ])
                 
-                # Load saved state dictionary
-                self.model.load_state_dict(torch.load(self.weights_path, map_location=self.device))
-                self.model.to(self.device)
-                self.model.eval()
-                print("Model loaded successfully!")
+                # Load weights if available
+                self.weights_path = os.path.join(os.path.dirname(__file__), "weights", "best_model.pth")
+                if os.path.exists(self.weights_path):
+                    try:
+                        print(f"Loading PyTorch weights from {self.weights_path}...")
+                        self.model = models.efficientnet_b0(pretrained=False)
+                        num_features = self.model.classifier[1].in_features
+                        self.model.classifier[1] = torch.nn.Linear(num_features, len(self.classes))
+                        self.model.load_state_dict(torch.load(self.weights_path, map_location=self.device))
+                        self.model.to(self.device)
+                        self.model.eval()
+                        print("Model loaded successfully!")
+                    except Exception as e:
+                        print(f"Error loading trained model weights: {e}. Falling back to simulation mode.")
+                        self.model = None
+                else:
+                    print(f"No weights found at {self.weights_path}. Running in simulation/mock mode.")
+                    self.model = None
             except Exception as e:
-                print(f"Error loading trained model weights: {e}. Falling back to simulation mode.")
+                print(f"Error initializing PyTorch pipeline: {e}. Falling back to simulation mode.")
                 self.model = None
         else:
-            print(f"No weights found at {self.weights_path}. Running in simulation/mock mode.")
+            print("Running in simulation/mock mode (no PyTorch available).")
             self.model = None
 
     def predict(self, image_base64: str) -> dict:
@@ -340,8 +351,8 @@ class PlantDiseaseModel:
         Predicts the crop disease from the base64 encoded image.
         Returns a dict containing diseaseName, confidence, severity, description, treatments, and prevention.
         """
-        # If no model is loaded, run mock prediction based on the hash of the image content
-        if self.model is None:
+        # If no model is loaded or PyTorch is unavailable, run mock prediction
+        if not HAS_TORCH or self.model is None:
             return self._mock_prediction(image_base64)
             
         try:
