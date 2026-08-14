@@ -1,0 +1,32 @@
+.spinner-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+.spinner-md {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.spinner-lg {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.spinner-svg {
+  animation: spinner-spin 1s linear infinite;
+  display: block;
+}
+
+.spinner-opacity-25 {
+  opacity: 0.25;
+}
+
+.spinner-opacity-75 {
+  opacity: 0.75;
+}
+
+@keyframes spinner-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

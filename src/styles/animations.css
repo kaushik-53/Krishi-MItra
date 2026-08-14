@@ -66,3 +66,52 @@
 .animate-slide-in-left { animation: slide-in-left 0.3s ease-out; }
 .animate-scale-up { animation: scale-up 0.3s ease-out; }
 .animate-rotate-slow { animation: rotate-slow 20s linear infinite; }
+
+/* Custom Migrated Animations */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0px rgba(82, 183, 136, 0); }
+  50% { box-shadow: 0 0 30px rgba(82, 183, 136, 0.4); }
+}
+.animate-glow-pulse {
+  animation: glow-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.animate-shimmer {
+  animation: shimmer 2s infinite linear;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes grow {
+  0% { transform: scaleY(0); opacity: 0; }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+.animate-grow {
+  animation: grow 1.2s ease-out forwards;
+}
+
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.5); }
+}
+.animate-wave {
+  animation: wave 1.5s ease-in-out infinite;
+}
