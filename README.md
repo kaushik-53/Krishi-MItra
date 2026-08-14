@@ -9,11 +9,11 @@ Crop disease detection · Smart fertilizer guidance · Live weather advisories �
 ---
 
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=white)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vite.dev/)
+[![CSS3](https://img.shields.io/badge/CSS3-Vanilla-1572B6?style=flat-square&logo=css3&logoColor=white)](https://www.w3.org/Style/CSS/)
 [![Firebase](https://img.shields.io/badge/Firebase-12-FFCA28?style=flat-square&logo=firebase&logoColor=black)](https://firebase.google.com/)
 [![Gemini AI](https://img.shields.io/badge/Gemini_2.0_Flash-AI-4285F4?style=flat-square&logo=google&logoColor=white)](https://ai.google.dev/)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![PWA](https://img.shields.io/badge/PWA-Ready-5A0FC8?style=flat-square&logo=pwa&logoColor=white)](https://web.dev/progressive-web-apps/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
@@ -32,7 +32,7 @@ India has **150+ million farmers** — yet most still rely on guesswork for dise
 ## ✨ Key Features
 
 ### 🦠 AI Crop Disease Detection
-Upload a photo of your crop leaf and get an instant AI diagnosis — disease name, confidence score, organic & chemical treatment plans, and prevention tips.
+Upload a photo of your crop leaf and get an instant AI diagnosis — disease name, confidence score, organic & chemical treatment plans, and prevention tips. Powered by a local **PyTorch (EfficientNet-B0)** image classifier with a seamless client-side simulation fallback in case the service is offline or blocked.
 
 ### 🌤️ Hyper-Local Weather Advisory
 Real-time weather data with farm-specific recommendations: irrigation advice, spray schedules, frost warnings, and a 7-day farming calendar.
@@ -56,7 +56,7 @@ Email/password login, Google Sign-In, forgot password (email reset), and Firebas
 Install on Android or desktop for an app-like experience. Optimized for low-bandwidth rural connectivity.
 
 ### 🌐 Full Bilingual Support
-Complete Hindi (`hi`) and English (`en`) UI — every screen, label, toast, and AI response.
+Complete Hindi (`hi`) and English (`en`) UI — every screen, label, toast, and AI response. Includes a customizable Floating Guide.
 
 ---
 
@@ -64,9 +64,9 @@ Complete Hindi (`hi`) and English (`en`) UI — every screen, label, toast, and 
 
 | Layer | Technology |
 |-------|------------|
-| **Frontend Framework** | React 18 + TypeScript |
+| **Frontend Framework** | React 18 (JavaScript ES6+) |
 | **Build Tool** | Vite 8 |
-| **Styling** | Tailwind CSS 3 + custom design tokens |
+| **Styling** | Vanilla CSS (Modular Component Styles + Custom Animations & Global Design Tokens) |
 | **Animations** | Framer Motion |
 | **State Management** | Zustand |
 | **Server State** | TanStack React Query |
@@ -81,6 +81,8 @@ Complete Hindi (`hi`) and English (`en`) UI — every screen, label, toast, and 
 | **i18n** | i18next + react-i18next |
 | **PWA** | vite-plugin-pwa |
 | **Notifications** | react-hot-toast |
+| **Backend API** | FastAPI (Python 3.10+) |
+| **Machine Learning** | PyTorch (EfficientNet-B0) |
 
 ---
 
@@ -89,6 +91,10 @@ Complete Hindi (`hi`) and English (`en`) UI — every screen, label, toast, and 
 ```
 krishi-mitra/
 ├── src/
+│   ├── components/             # Shared UI components & layouts
+│   │   ├── common/             # Language switcher, loaders
+│   │   ├── layout/             # Navbar, footer
+│   │   └── ui/                 # Scoped components (Button, Card, Modal, etc.)
 │   ├── pages/
 │   │   ├── AIChatbot/          # Gemini-powered chat with history
 │   │   ├── AuthPage/           # Login, register, forgot password
@@ -102,22 +108,24 @@ krishi-mitra/
 │   │   ├── VoiceAssistant/     # Speech-to-text + AI + TTS
 │   │   └── WeatherAdvisory/    # Real-time weather + farm advice
 │   ├── services/
-│   │   ├── ai.service.ts       # Gemini API integration
-│   │   ├── auth.service.ts     # Firebase Auth helpers
-│   │   ├── chat.service.ts     # Firestore chat persistence
-│   │   ├── disease.service.ts  # Disease detection API
-│   │   ├── market.service.ts   # Market data API
-│   │   └── weather.service.ts  # OpenWeather integration
-│   ├── components/             # Shared UI components & layout
-│   ├── config/                 # Firebase + environment config
+│   │   ├── ai.service.js       # Gemini API & offline ML simulator fallback
+│   │   ├── auth.service.js     # Firebase Auth helpers
+│   │   ├── chat.service.js     # Firestore chat persistence
+│   │   ├── disease.service.js  # Disease detection API client
+│   │   ├── market.service.js   # Market data API
+│   │   └── weather.service.js  # OpenWeather integration
+│   ├── styles/                 # global.css & custom animations.css
+│   ├── config/                 # Firebase & environment config
 │   ├── hooks/                  # Custom React hooks
 │   ├── lib/                    # Utilities, validators, animations
-│   ├── locales/                # en.json + hi.json translations
-│   ├── store/                  # Zustand state stores
-│   └── types/                  # Shared TypeScript types
-├── backend/                    # Python backend (disease detection)
+│   ├── locales/                # en.json & hi.json translations
+│   └── store/                  # Zustand state stores
+├── backend/                    # Python FastAPI backend
+│   ├── weights/                # Trained PyTorch weights (.pth)
+│   ├── main.py                 # FastAPI endpoints & CORS config
+│   └── inference.py            # PyTorch model load, transforms, & predictor
 ├── public/                     # Static assets & PWA icons
-└── firebase.json               # Firebase deploy config
+└── firebase.json               # Firebase deploy configuration
 ```
 
 ---
@@ -126,33 +134,29 @@ krishi-mitra/
 
 ### Prerequisites
 - Node.js 18+
+- Python 3.10+ (for local AI/ML disease detection service)
 - A [Firebase project](https://console.firebase.google.com/) with **Authentication** and **Firestore** enabled
 - A [Gemini API key](https://aistudio.google.com/app/apikey) (free tier available)
 - An [OpenWeatherMap API key](https://openweathermap.org/api) (free tier)
 
-### 1. Clone the repository
+---
 
+### Setup Instructions
+
+#### 1. Clone the repository
 ```bash
 git clone https://github.com/kaushik-53/Krishi-MItra.git
 cd Krishi-MItra
 ```
 
-### 2. Install dependencies
-
-```bash
-npm install
-```
-
-### 3. Configure environment variables
-
+#### 2. Configure Environment Variables
+Create a `.env` file in the root directory by copying the template:
 ```bash
 cp .env.example .env
 ```
-
-Edit `.env` and fill in your keys:
-
+Fill in your API keys and Firebase configurations:
 ```env
-# Firebase (Required)
+# Firebase Configuration
 VITE_FIREBASE_API_KEY=your_firebase_api_key
 VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
 VITE_FIREBASE_PROJECT_ID=your_project_id
@@ -160,59 +164,72 @@ VITE_FIREBASE_STORAGE_BUCKET=your_project.firebasestorage.app
 VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
 
-# AI (Required for Chatbot & Voice Assistant)
+# AI/ML Configuration
 VITE_GEMINI_API_KEY=your_gemini_api_key
+VITE_AI_API_BASE_URL=http://localhost:8000
 
-# Weather (Required for Weather Advisory)
+# Weather API
 VITE_OPENWEATHER_API_KEY=your_openweather_key
 
-# Market Data (Optional)
+# Market Data API
 VITE_DATA_GOV_API_KEY=your_data_gov_key
 ```
 
-### 4. Set up Firebase
-
-In [Firebase Console](https://console.firebase.google.com/):
+In the [Firebase Console](https://console.firebase.google.com/):
 - Enable **Email/Password** and **Google** sign-in under **Authentication → Sign-in method**
-- Create a **Firestore** database in production mode
-- Add `localhost` to **Authentication → Settings → Authorized domains**
-
-### 5. Run the development server
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:5173](http://localhost:5173) 🎉
+- Create a **Firestore** database
+- Add `localhost` and your hosted domains under **Authentication → Settings → Authorized domains**
 
 ---
 
-## 📜 Available Scripts
+#### 3. Run the Frontend (React Client)
+Install the frontend node packages and launch Vite:
+```bash
+# Install NPM packages
+npm install
+
+# Start the local development server
+npm run dev
+```
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+---
+
+#### 4. Run the Backend (PyTorch ML Service)
+Create a Python virtual environment and run the FastAPI server:
+```bash
+# Navigate to backend
+cd backend
+
+# Create virtual environment
+python -m venv .venv
+
+# Activate virtual environment
+# Windows (PowerShell):
+.venv\Scripts\Activate.ps1
+# Mac/Linux:
+source .venv/bin/activate
+
+# Install required Python dependencies
+pip install -r requirements.txt
+
+# Start the Python FastAPI server
+python main.py
+```
+The ML server runs on **`http://localhost:8000`** and will be queried by your React frontend for leaf crop disease detection. 
+
+*If the backend is not running or is blocked by browser security (e.g., HTTPS Mixed Content on your deployed site), the frontend will automatically invoke a simulated local prediction fallback.*
+
+---
+
+## 📜 Available Frontend Scripts
 
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Start local development server |
-| `npm run build` | TypeScript check + production build |
+| `npm run build` | Compile code for production (output to `dist/`) |
 | `npm run preview` | Preview production build locally |
 | `npm run lint` | Run ESLint checks |
-
----
-
-## 🌍 Environment Variables Reference
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `VITE_FIREBASE_API_KEY` | ✅ | Firebase project API key |
-| `VITE_FIREBASE_AUTH_DOMAIN` | ✅ | Firebase auth domain |
-| `VITE_FIREBASE_PROJECT_ID` | ✅ | Firebase project ID |
-| `VITE_FIREBASE_STORAGE_BUCKET` | ✅ | Firebase Storage bucket |
-| `VITE_FIREBASE_MESSAGING_SENDER_ID` | ✅ | FCM sender ID |
-| `VITE_FIREBASE_APP_ID` | ✅ | Firebase app ID |
-| `VITE_GEMINI_API_KEY` | ✅ | Google Gemini API key (chatbot + voice) |
-| `VITE_OPENWEATHER_API_KEY` | ✅ | OpenWeatherMap API key |
-| `VITE_DATA_GOV_API_KEY` | ⬜ | data.gov.in key for market prices |
-| `VITE_ENABLE_VOICE` | ⬜ | Toggle voice assistant (`true`/`false`) |
-| `VITE_ENABLE_MARKET_PREDICTION` | ⬜ | Toggle market feature (`true`/`false`) |
 
 ---
 
